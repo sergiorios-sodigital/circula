@@ -1,6 +1,6 @@
-CREATE DATABASE luis
+CREATE DATABASE circula
 
-\c luis
+\c circula
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -11,6 +11,8 @@ CREATE TABLE bibliotecas(
     url VARCHAR(100),
     PRIMARY KEY(id)
 );
+INSERT INTO bibliotecas 
+VALUES('5acdb853-58b7-4ab0-85b2-4a65c4d96901','0000000001','Main Library','http://www.mylibrary.com');
 
 CREATE TABLE grupos_usuario(
     id UUID DEFAULT uuid_generate_v4(),
@@ -21,6 +23,8 @@ CREATE TABLE grupos_usuario(
     PRIMARY KEY(id),
     CONSTRAINT fk_grupo_biblioteca FOREIGN KEY(biblioteca_id) REFERENCES bibliotecas(id)
 );
+INSERT INTO grupos_usuario
+VALUES('172d1241-9452-4b5f-a980-10f5567ceaac','0000000001','Admin','5acdb853-58b7-4ab0-85b2-4a65c4d96901',TRUE);
 
 CREATE TABLE usuarios(
     id UUID DEFAULT uuid_generate_v4(),
@@ -44,6 +48,8 @@ CREATE TABLE usuarios(
     CONSTRAINT fk_usuario_biblioteca FOREIGN KEY(biblioteca_id) REFERENCES bibliotecas(id),
     CONSTRAINT fk_usuario_grupo FOREIGN KEY(grupo_usuario_id) REFERENCES grupos_usuario(id)
 );
+INSERT INTO usuarios(id,codigo,a_paterno,nombre,biblioteca_id,grupo_usuario_id,usuario,password)
+VALUES('a0dab285-e894-49ce-8cea-1e7d68f26f30','0000000001','Root','Admin','5acdb853-58b7-4ab0-85b2-4a65c4d96901','172d1241-9452-4b5f-a980-10f5567ceaac','admin','8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918');
 
 CREATE TABLE tipos_item(
     id UUID DEFAULT uuid_generate_v4(),
